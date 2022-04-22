@@ -1,0 +1,8 @@
+requests
+selenium
+attrs
+pytest
+pytest-rerunfailures
+allure-pytest
+sentry-sdk
+pytest-xdist
