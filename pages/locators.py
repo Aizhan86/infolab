@@ -35,7 +35,7 @@ class AnalysisAddLocators(object):
     ANALYSIS_GROUP_CHBX ="$('#windowProcedure div[data-field=is_pre_test_counseling] .ui.checkbox')"
     CLASSIFIER_DD = "$('#windowProcedure div[data-field=classifier_id] .ui.dropdown')"
     CLASSIFIER_GROUP_DROPDOWN = "$('#windowProcedure div[data-field=classifier_group] .ui.dropdown')"
-    CHOOSE_IFA_IHLA_CHBX = "$('div[data-field=classifier_block] .ui.table.study-list .classifier_often_used_body tr[data-value=e6306d2c-d53a-434b-8030-46eba52f0dac] input]')"
+    CHOOSE_IFA_IHLA_CHBX = "$('div[data-field=classifier_block] .ui.table.study-list .classifier_often_used_body tr[data-value=e6306d2c-d53a-434b-8030-46eba52f0dac] input')"
     CHOOSE_OAK_CHBX = "$('div[data-field=classifier_block] .ui.table.study-list .classifier_often_used_body tr[data-value=cc7231ba-07b7-45a3-9d97-6c622fad90a2] input')"
     CHOOSE_OAM_CHBX = "$('div[data-field=classifier_block] .ui.table.study-list .classifier_often_used_body tr[data-value=6ca6f3b1-677d-4c36-bf1a-2b9f6316b58a] input')"
     CHOOSE_A_APOLIPOPROTEN_CHBX = "$('div[data-field=classifier_block] .ui.table.study-list .classifier_often_used_body tr[data-value=1689e775-6caa-463f-ad84-d8f7c607050c] input')"

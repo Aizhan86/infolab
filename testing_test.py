@@ -31,46 +31,46 @@ class TestIfaIhlaResultsModule():
         work_page.should_switch_to_results_page()
         work_page.should_submit_ifa_ihla_results()
 
-class TestHbsagIfaAnalysisDiceModule():
-    def test_dice_module(self, browser):
-        login(browser)
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.should_fill_register_form()
-        work_page.should_add_hbsag_ifa_analysis()
-        work_page.should_get_samples()
-        work_page.should_send_samples_for_sorting()
-        work_page.should_switch_to_dice_page()
-        work_page.should_add_dice()
-
-class TestBloodAnalysis():
-    def test_gba_results(self, browser):
-        login(browser)
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.should_fill_register_form()
-        work_page.should_add_blood_analysis()
-        work_page.should_get_samples()
-        work_page.should_send_samples_for_sorting()
-        work_page.should_switch_to_results_page()
-        work_page.should_submit_gba_results()
-
-class TestUrineAnalysis():
-    def test_gua_results(self, browser):
-        login(browser)
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.should_fill_register_form()
-        work_page.should_add_urine_analysis()
-        work_page.should_get_samples()
-        work_page.should_send_samples_for_sorting()
-        work_page.should_switch_to_results_page()
-        work_page.should_submit_gua_results()
-
-class TestBiochemistryAnalysis():
-    def test_biochemistry_results(self, browser):
-        login(browser)
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.should_fill_register_form()
-        work_page.should_add_biochemistry()
-        work_page.should_get_samples()
-        work_page.should_send_samples_for_sorting()
-        work_page.should_switch_to_results_page()
-        work_page.should_submit_biochemistry_results()
+# class TestHbsagIfaAnalysisDiceModule():
+#     def test_dice_module(self, browser):
+#         login(browser)
+#         work_page = WorkPage(browser, browser.current_url)
+#         work_page.should_fill_register_form()
+#         work_page.should_add_hbsag_ifa_analysis()
+#         work_page.should_get_samples()
+#         work_page.should_send_samples_for_sorting()
+#         work_page.should_switch_to_dice_page()
+#         work_page.should_add_dice()
+#
+# class TestBloodAnalysis():
+#     def test_gba_results(self, browser):
+#         login(browser)
+#         work_page = WorkPage(browser, browser.current_url)
+#         work_page.should_fill_register_form()
+#         work_page.should_add_blood_analysis()
+#         work_page.should_get_samples()
+#         work_page.should_send_samples_for_sorting()
+#         work_page.should_switch_to_results_page()
+#         work_page.should_submit_gba_results()
+#
+# class TestUrineAnalysis():
+#     def test_gua_results(self, browser):
+#         login(browser)
+#         work_page = WorkPage(browser, browser.current_url)
+#         work_page.should_fill_register_form()
+#         work_page.should_add_urine_analysis()
+#         work_page.should_get_samples()
+#         work_page.should_send_samples_for_sorting()
+#         work_page.should_switch_to_results_page()
+#         work_page.should_submit_gua_results()
+#
+# class TestBiochemistryAnalysis():
+#     def test_biochemistry_results(self, browser):
+#         login(browser)
+#         work_page = WorkPage(browser, browser.current_url)
+#         work_page.should_fill_register_form()
+#         work_page.should_add_biochemistry()
+#         work_page.should_get_samples()
+#         work_page.should_send_samples_for_sorting()
+#         work_page.should_switch_to_results_page()
+#         work_page.should_submit_biochemistry_results()
