@@ -132,5 +132,5 @@ class DicePageLocators(object):
     APPLY_BTN = "$('#windowFilter .ok.green.button')"
     REPLACE = "$('#move_div')"
     TUBE_DRAGGABLE = (By.CLASS_NAME, '.item.dice.drag.drop.visual')
-    DICE_A1 = (By.CSS_SELECTOR, '#node_dice_1 input[name=dice-1-request_id]')
+    DICE_A1 = "$('#node_dice_1 input[name=dice-1-request_id]')"
     DICE_SAVE_BTN = "$('#save_form')"

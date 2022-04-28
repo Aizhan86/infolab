@@ -57,8 +57,13 @@ class WorkPage(BasePage):
         self.make(f"{RegisterPageLocators.PATIENT_DOC_SERIES}.val('852')")
         self.make(f"{RegisterPageLocators.PATIENT_DOC_NUM}.val('456')")
         self.make(f"{RegisterPageLocators.COUNTRY}.dropdown('set selected', '145751');")
-        self.make(f"{RegisterPageLocators.REGION}.dropdown('set selected', '1');")
-        self.make(f"{RegisterPageLocators.AREA_UNIT}.dropdown('set selected', '28');")
+        self.make(f"{RegisterPageLocators.REGION}.dropdown('set selected', '4');")
+        # sleep(2)
+        # self.make(f"{RegisterPageLocators.AREA_UNIT}.click();")
+        # sleep(1)
+        # self.make(f"{RegisterPageLocators.AREA_UNIT}.dropdown('set selected', '71');")
+        # sleep(1)
+        # self.make(f"{RegisterPageLocators.AREA_UNIT}.dropdown('hide');")
         self.make(f"{RegisterPageLocators.LOCALITY}.val('Косшы')")
         self.make(f"{RegisterPageLocators.STREET}.val('Абай')")
         self.make(f"{RegisterPageLocators.HOUSE}.val('5')")
@@ -123,11 +128,11 @@ class WorkPage(BasePage):
 
     def check_region_of_living(self):
         assert self.browser.execute_script(f"return {RegisterPageLocators.REGION}.length"), "Patient's region of living object is not accessible"
-        assert self.browser.execute_script(f"return {RegisterPageLocators.REGION}.find('input').val()") == '3', "Patient's region of living object doesn't take a value"
+        assert self.browser.execute_script(f"return {RegisterPageLocators.REGION}.find('input').val()") == '4', "Patient's region of living object doesn't take a value"
 
     def check_area_unit_of_living(self):
         assert self.browser.execute_script(f"return {RegisterPageLocators.AREA_UNIT}.length"), "Patient's area unit of living object is not accessible"
-        assert self.browser.execute_script(f"return {RegisterPageLocators.AREA_UNIT}.find('input').val()") == '60', "Patient's area unit of living object doesn't take a value"
+        assert self.browser.execute_script(f"return {RegisterPageLocators.AREA_UNIT}.find('input').val()") == '71', "Patient's area unit of living object doesn't take a value"
 
     def check_locality_of_living(self):
         assert self.browser.execute_script(f"return {RegisterPageLocators.LOCALITY}.length"), "Patient's locality of living object is not accessible"
@@ -359,6 +364,8 @@ class WorkPage(BasePage):
         sleep(2)
         self.browser.execute_script(f"window.location = $('#buttons_div a').attr('href')")
         sleep(2)
+
+    def check_ifa_ihla_results(self):
         assert self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{visit_id}')[0].status_code") == 5, "Результат не проставлен"
 
     def should_submit_gba_results(self):
@@ -441,7 +448,8 @@ class WorkPage(BasePage):
         self.make(f"{DicePageLocators.REPLACE}.click()")  # перемещаем выбранную пробирку
         sleep(5)
         # проверка, находится ли пробирка на плашке
-        assert self.browser.find_element(*DicePageLocators.DICE_A1).get_attribute("value") == f"{referral_id}", "The tube is not in dice"
+        assert self.browser.execute_script(f"return {DicePageLocators.DICE_A1}.val()") == f"{referral_id}", "The tube is not in dice"
+        # assert self.browser.find_element(*DicePageLocators.DICE_A1).get_attribute("value") == f"{referral_id}", "The tube is not in dice"
         self.make(f"{DicePageLocators.DICE_SAVE_BTN}.click()")
 
 
