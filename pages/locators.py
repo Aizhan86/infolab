@@ -3,36 +3,53 @@ from selenium.webdriver.common.by import By
 class LoginPageLocators(object):
     LOGIN_URL = "https://infolab.dec.kz/ru/account/login?next=/ru/patient/"
     LOGIN_LINK = "https://infolab.dec.kz/ru/account/login?next=/ru/patient/"
-    LOGIN_FORM = (By.CSS_SELECTOR, 'form[name="form"]')
-    USER_NAME = (By.ID, "identification")
-    USER_PASS = (By.ID, "password")
-    LOGIN_BTN = (By.ID, "entrance")
+    LOGIN_FORM = "$('.login_panel_block form')"
+    USER_NAME = "$('#identification')"
+    USER_PASS = "$('#password')"
+    LOGIN_BTN = "$('#entrance')"
 
 class PatientPageLocators(object):
     PATIENT_URL = "https://infolab.dec.kz/ru/patient/"
-    PATIENT_LINK = (By.CSS_SELECTOR, 'a[href="/ru/patient/"]')
+    PATIENT_LINK = "$('a[href=/ru/patient/')"
 
 class RegisterPageLocators(object):
-    REGISTER_LINK = (By.CSS_SELECTOR, 'a[href="/ru/patient/add"]')
-    PATIENT_IIN = (By.NAME, "iin")
-    PATIENT_SURNAME = (By.CSS_SELECTOR, 'input[name="last_name"]')
-    PATIENT_NAME = (By.CSS_SELECTOR, 'input[name="first_name"]')
-    PATIENT_BIRTH_DATE = (By.CSS_SELECTOR, 'input[name="birthDate"]')
-    PATIENT_GENDER_DROPDOWN = "$('form[name=form-add-patient] div[data-field=patient__gender] .ui.dropdown')"
-    PATIENT_CITIZENSHIP = (By.CSS_SELECTOR, 'select[name="citizenship_id"]')
-    REGISTER_SAVE_BTN = (By.ID, "save_patient_id")
+    ADD_PATIENT = "$('#patient-add')"
+    PATIENT_IIN = "$('div[data-field=patient__iin] input')"
+    LAB_EMPLOYEE = "$('div[data-field=patient__is_laboratory_employee] .ui.checkbox input')"
+    PATIENT_SURNAME = "$('div[data-field=patient__last_name] input')"
+    PATIENT_NAME = "$('div[data-field=patient__first_name] input')"
+    PATIENT_MIDDLE_NAME = "$('div[data-field=patient__father_name] input')"
+    PATIENT_BIRTH_DATE = "$('div[data-field=patient__birthDate] input')"
+    PATIENT_GENDER = "$('form[name=form-add-patient] div[data-field=patient__gender] .ui.dropdown')"
+    NAME_TRANSLITERATION = "$('div[data-field=patient__translit_name] input')"
+    PATIENT_CITIZENSHIP = "$('div[data-field=patient__citizenship_id] .ui.dropdown')"
+    PATIENT_COUNTRY_ORIGIN = "$('div[data-field=patient__from_country] .ui.dropdown')"
+    PATIENT_DOC = "$('div[data-field=patient__document_types] .ui.dropdown')"
+    PATIENT_DOC_SERIES = "$('div[data-field=patient__document_series] input')"
+    PATIENT_DOC_NUM = "$('div[data-field=patient__document_number] input')"
+    COUNTRY = "$('div[data-field=patient__address_country] .ui.dropdown')"
+    REGION = "$('div[data-field=patient__address_region] .ui.dropdown')"
+    AREA_UNIT = "$('div[data-field=patient__address_unit_area] .ui.dropdown')"
+    LOCALITY = "$('div[data-field=patient__address_locality_name] input')"
+    STREET = "$('div[data-field=patient__address_line] input')"
+    HOUSE = "$('div[data-field=patient__home] input')"
+    APT = "$('div[data-field=patient__flat] input')"
+    PHONE_NO = "$('div[data-field=patient__telecom_home] input')"
+    MOBILE_NO = "$('div[data-field=patient__telecom_mobile] input')"
+    COMPANY_NAME = "$('div[data-field=patient__work_place] input')"
+    REGISTER_SAVE = "$('#save_patient_id')"
 
 class VisitLocators(object):
-    VISIT_ADD_BTN = (By.ID, "visit_add")
+    VISIT_ADD = "$('#visit_add')"
     DOCTOR_NAME_DROPDOWN = "$('form[name=form-add-visit] div[data-field=visit__individual_id] .ui.dropdown')"
     CABINET_NUMBER_DROPDOWN = "$('form[name=form-add-visit] div[data-field=visit__cab_number_id] .ui.dropdown')"
-    VISIT_SAVE_BTN = (By.CSS_SELECTOR, "#windowAddVisit .actions .ui.ok.green.button.visual")
+    VISIT_SAVE = "$('#windowAddVisit .actions .ui.ok.green.button.visual')"
 
 
 class AnalysisAddLocators(object):
     ANALYSIS_ADD = "$('#add_analysis')"
     ANALYSIS_TYPE = "$('#windowProcedure div[data-field=analyse_type] .ui.dropdown')"
-    ANALYSIS_GROUP_CHBX ="$('#windowProcedure div[data-field=is_pre_test_counseling] .ui.checkbox')"
+    ANALYSIS_GROUP_CHBX = "$('#windowProcedure div[data-field=is_pre_test_counseling] .ui.checkbox')"
     CLASSIFIER_DD = "$('#windowProcedure div[data-field=classifier_id] .ui.dropdown')"
     CLASSIFIER_GROUP_DROPDOWN = "$('#windowProcedure div[data-field=classifier_group] .ui.dropdown')"
     CHOOSE_IFA_IHLA_CHBX = "$('div[data-field=classifier_block] .ui.table.study-list .classifier_often_used_body tr[data-value=e6306d2c-d53a-434b-8030-46eba52f0dac] input')"
@@ -43,7 +60,7 @@ class AnalysisAddLocators(object):
     ANALYSIS_DATE_BTN = (By.CSS_SELECTOR, 'div[class="content"] input[name=id]')
     REFERRAL_TABLE = (By.CSS_SELECTOR, 'table.ui.attached.celled.table tbody.table-analisis-list tr')
     REDUCT_BTN = (By.CSS_SELECTOR, 'div[onclick="$(this).editAnalisis()"]')
-    CLOSE_BTN = (By.ID, "close_patient")
+    CLOSE_BTN = "$('#close_patient')"
 
 class ProcedurePageLocators(object):
     PROCEDURE_URL = "https://infolab.dec.kz/ru/procedure_cab_index"

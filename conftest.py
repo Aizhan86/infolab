@@ -13,11 +13,11 @@ def browser():
         traces_sample_rate=1.0,
     )
     # browser = webdriver.Remote(desired_capabilities=DesiredCapabilities.CHROME, command_executor="http://127.0.0.1:4444/wd/hub")
-    # browser = webdriver.Remote(desired_capabilities=DesiredCapabilities.CHROME, command_executor="http://172.18.0.1:4444/wd/hub")
-    browser = webdriver.Chrome(service=Service('C:/Work/tools/chromedriver/chromedriver.exe'))
-    browser.maximize_window()
+    browser = webdriver.Remote(desired_capabilities=DesiredCapabilities.CHROME, command_executor="http://172.18.0.1:4444/wd/hub")
+    # browser = webdriver.Chrome(service=Service('C:/Work/tools/chromedriver/chromedriver.exe'))
+    # browser.maximize_window()
 
-    # pytest --dist=loadscope --tx 2*popen//python=python3.10 -n 2 --reruns 2 --only-rerun JavascriptException --only-rerun ElementClickInterceptedException testing_test.py
+    # pytest --dist=loadscope --tx 8*popen//python=python3.10 -n 8 --reruns 2 --only-rerun JavascriptException --only-rerun ElementClickInterceptedException testing_test.py
 
     yield browser
     print("\nquit browser..")
