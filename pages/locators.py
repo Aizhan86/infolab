@@ -41,8 +41,8 @@ class RegisterPageLocators(object):
 
 class VisitLocators(object):
     VISIT_ADD = "$('#visit_add')"
-    DOCTOR_NAME_DROPDOWN = "$('form[name=form-add-visit] div[data-field=visit__individual_id] .ui.dropdown')"
-    CABINET_NUMBER_DROPDOWN = "$('form[name=form-add-visit] div[data-field=visit__cab_number_id] .ui.dropdown')"
+    DOCTOR_NAME = "$('form[name=form-add-visit] div[data-field=visit__individual_id] .ui.dropdown')"
+    CABINET_NUMBER = "$('form[name=form-add-visit] div[data-field=visit__cab_number_id] .ui.dropdown')"
     VISIT_SAVE = "$('#windowAddVisit .actions .ui.ok.green.button.visual')"
 
 
@@ -113,6 +113,7 @@ class ResultsPageLocators(object):
     RESULT_3 = "$('div[data-field=testing_res3] .ui.dropdown')"
     RESULT_4 = "$('div[data-field=testing_res4] .ui.dropdown')"
     CHECKBOX_CONFIRM_RES2 = (By.CSS_SELECTOR, 'input[name="testing__check_analyze_confirming"]')
+    DEFECT_REASON = "$('div[data-field=testing__defect_reason] .ui.dropdown')"
     RESULT_SAVE = "$('#windowTesting .ok.green.button')"
     RESULT_CLOSE = "$('#buttons_div a')"
 

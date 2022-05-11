@@ -8,7 +8,7 @@ def login(browser):
     login_page.should_fill_login_form()
     login_page.go_to_work_page()
 
-
+#
 # class TestLoginForm():
 #     def test_presence_of_login_form(self, browser):
 #         LOGIN_URL = "https://infolab.dec.kz/ru/account/login?next=/ru/patient/"
@@ -27,7 +27,7 @@ def login(browser):
 #     def test_login_btn(self, browser):
 #         login_page = LoginPage(browser, browser.current_url)
 #         login_page.check_login_btn()
-
+#
 #
 # class TestRegisterForm():
 #     def test_register_form(self, browser):
@@ -91,9 +91,9 @@ def login(browser):
 #         work_page = WorkPage(browser, browser.current_url)
 #         work_page.check_region_of_living()
 #
-#     # def test_area_unit_of_living(self, browser):
-#     #     work_page = WorkPage(browser, browser.current_url)
-#     #     work_page.check_area_unit_of_living()
+#     def test_area_unit_of_living(self, browser):
+#         work_page = WorkPage(browser, browser.current_url)
+#         work_page.check_area_unit_of_living()
 #
 #     def test_locality_of_living(self, browser):
 #         work_page = WorkPage(browser, browser.current_url)
@@ -127,48 +127,40 @@ def login(browser):
 #         work_page = WorkPage(browser, browser.current_url)
 #         work_page.check_register_save_btn()
 #
-
-class TestVisitsForm():
-    def test_visits_form(self, browser):
-        login(browser)
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.register_new_donor()
-        work_page.register_visit()
-
-    def test_addition_of_ifa_ihla(self, browser):
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.should_add_ifa_ihla()
-
-    def test_receipt_of_samples_form(self, browser):
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.should_get_samples()
-
-    def test_sorting_form(self, browser):
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.should_send_samples_for_sorting()
-
-    def test_results_of_ifa_ihla(self, browser):
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.should_switch_to_results_page()
-        work_page.should_submit_ifa_ihla_results()
-
-    def test_ifa_ihla_results(self, browser):
-        work_page = WorkPage(browser, browser.current_url)
-        work_page.check_ifa_ihla_results()
-
-# class TestIfaIhlaAnalysisDiceModule():
-#     def test_dice_module(self, browser):
+#
+# class TestVisitsForm():
+#     def test_visits_form(self, browser):
+#         login(browser)
+#         work_page = WorkPage(browser, browser.current_url)
+#         work_page.register_new_donor()
+#         work_page.register_visit()
+#
+#     def test_doctor_name(self, browser):
+#         work_page = WorkPage(browser, browser.current_url)
+#         work_page.check_doctor_name_in_visits()
+#
+#     def test_cabinet_number(self, browser):
+#         work_page = WorkPage(browser, browser.current_url)
+#         work_page.check_cabinet_number_in_visits()
+#
+#     def test_visits_save_button(self, browser):
+#         work_page = WorkPage(browser, browser.current_url)
+#         work_page.check_visits_save_btn()
+#
+# class TestIfaIhlaAnalysisResultsModule():
+#     def test_ifa_ihla_result_module(self, browser):
 #         login(browser)
 #         work_page = WorkPage(browser, browser.current_url)
 #         work_page.should_fill_register_form()
 #         work_page.should_add_ifa_ihla()
 #         work_page.should_get_samples()
 #         work_page.should_send_samples_for_sorting()
-#         work_page.should_switch_to_dice_page()
+#         work_page.should_switch_to_results_page()
 #         work_page.should_submit_ifa_ihla_results()
-#
+#         work_page.check_results_modal()
+
 # class TestHbsagIfaAnalysisDiceModule():
-#     def test_dice_module(self, browser):
+#     def test_ifa_hbsag_result_module(self, browser):
 #         login(browser)
 #         work_page = WorkPage(browser, browser.current_url)
 #         work_page.should_fill_register_form()
@@ -177,8 +169,10 @@ class TestVisitsForm():
 #         work_page.should_send_samples_for_sorting()
 #         work_page.should_switch_to_dice_page()
 #         work_page.should_add_dice()
+#         work_page.check_dice_modal()
+#         work_page.check_save_dice_button()
 #
-# class TestBloodAnalysis():
+# class TestBloodAnalysisResultsModule():
 #     def test_gba_results(self, browser):
 #         login(browser)
 #         work_page = WorkPage(browser, browser.current_url)
@@ -188,8 +182,9 @@ class TestVisitsForm():
 #         work_page.should_send_samples_for_sorting()
 #         work_page.should_switch_to_results_page()
 #         work_page.should_submit_gba_results()
+#         work_page.check_results_modal()
 #
-# class TestUrineAnalysis():
+# class TestUrineAnalysisResultsModule():
 #     def test_gua_results(self, browser):
 #         login(browser)
 #         work_page = WorkPage(browser, browser.current_url)
@@ -199,8 +194,9 @@ class TestVisitsForm():
 #         work_page.should_send_samples_for_sorting()
 #         work_page.should_switch_to_results_page()
 #         work_page.should_submit_gua_results()
+#         work_page.check_results_modal()
 #
-# class TestBiochemistryAnalysis():
+# class TestBiochemistryAnalysisResultsModule():
 #     def test_biochemistry_results(self, browser):
 #         login(browser)
 #         work_page = WorkPage(browser, browser.current_url)
@@ -210,3 +206,15 @@ class TestVisitsForm():
 #         work_page.should_send_samples_for_sorting()
 #         work_page.should_switch_to_results_page()
 #         work_page.should_submit_biochemistry_results()
+#         work_page.check_results_modal()
+
+class TestBiochemistryAnalysisResultsRejection():
+    def test_biochemistry_results(self, browser):
+        login(browser)
+        work_page = WorkPage(browser, browser.current_url)
+        work_page.should_fill_register_form()
+        work_page.should_add_biochemistry()
+        work_page.should_get_samples()
+        work_page.should_send_samples_for_sorting()
+        work_page.should_switch_to_results_page()
+        work_page.should_reject_biochemistry_results()

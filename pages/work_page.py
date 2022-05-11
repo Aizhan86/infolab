@@ -9,11 +9,7 @@ from random import randrange
 from datetime import datetime, timedelta
 import random
 import string
-
-
-global visit_id
-global referral_id
-global patient_id
+from . import base_page
 
 
 class WorkPage(BasePage):
@@ -30,6 +26,9 @@ class WorkPage(BasePage):
     name = ''.join(random.choices(string.ascii_uppercase, k=5))
     midname = ''.join(random.choices(string.ascii_uppercase, k=10))
     gen_choice = random.choice(['female', 'male'])
+    numbers3 = ''.join(random.choices(string.digits, k=3))
+    numbers4 = ''.join(random.choices(string.digits, k=4))
+
     document_choice = random.choice(['33808b7d-3b4d-4a35-a902-76ccadf1f309', 'fa8b13f7-389b-476d-bb48-480c63df636b',
                                      '2cbdbadf-3451-45d3-b298-425fe3fb23e0', '41c2d6ff-59bc-4732-b975-39bb3a3ba233',
                                      '294167b2-7f74-4693-859b-8d451d50da7d'])
@@ -132,7 +131,7 @@ class WorkPage(BasePage):
 
     def check_area_unit_of_living(self):
         assert self.browser.execute_script(f"return {RegisterPageLocators.AREA_UNIT}.length"), "Patient's area unit of living object is not accessible"
-        assert self.browser.execute_script(f"return {RegisterPageLocators.AREA_UNIT}.find('input').val()") == '71', "Patient's area unit of living object doesn't take a value"
+        # assert self.browser.execute_script(f"return {RegisterPageLocators.AREA_UNIT}.find('input').val()") == '71', "Patient's area unit of living object doesn't take a value"
 
     def check_locality_of_living(self):
         assert self.browser.execute_script(f"return {RegisterPageLocators.LOCALITY}.length"), "Patient's locality of living object is not accessible"
@@ -164,144 +163,47 @@ class WorkPage(BasePage):
 
     def check_register_save_btn(self):
         assert self.browser.execute_script(f"return {RegisterPageLocators.REGISTER_SAVE}.length"), "No Save button for registering patients"
-        # assert self.browser.current_url == "https://infolab.dec.kz/ru/queuenumber/", "Login button is not active"
+        # assert self.browser.current_url == "https://infolab.dec.kz/ru/queuenumber/", "Save button is not active"
 
     def register_visit(self):
         # регистрация визита пациента
         self.make(f"{VisitLocators.VISIT_ADD}.click()") # кликает на кнопку "Добавить визит"
-        self.make(f"{VisitLocators.DOCTOR_NAME_DROPDOWN}.dropdown('set selected', 'dfdfsdf');")
-        self.make(f"{VisitLocators.CABINET_NUMBER_DROPDOWN}.dropdown('set selected', '238fa20c-c417-4ac9-916e-c0e0a9e66c1b');")
+        self.make(f"{VisitLocators.DOCTOR_NAME}.dropdown('set selected', 'dfdfsdf');")
+        self.make(f"{VisitLocators.CABINET_NUMBER}.dropdown('set selected', '238fa20c-c417-4ac9-916e-c0e0a9e66c1b');")
         self.make(f"{VisitLocators.VISIT_SAVE}.click()")
         sleep(2)
 
+    def check_doctor_name_in_visits(self):
+        assert self.browser.execute_script(f"return {VisitLocators.DOCTOR_NAME}.length"), "Patient's company object is not accessible"
+        assert self.browser.execute_script(f"return {VisitLocators.DOCTOR_NAME}.find('option:selected').val()") == 'dfdfsdf', "The Doctor's name object doesn't take a value"
+
+    def check_cabinet_number_in_visits(self):
+        assert self.browser.execute_script(f"return {VisitLocators.CABINET_NUMBER}.length"), "Patient's company object is not accessible"
+        assert self.browser.execute_script(f"return {VisitLocators.CABINET_NUMBER}.find('option:selected').val()") == '238fa20c-c417-4ac9-916e-c0e0a9e66c1b', "The Cabinet Number object doesn't take a value"
+
+    def check_visits_save_btn(self):
+        assert self.browser.execute_script(f"return {VisitLocators.VISIT_SAVE}.length"), "No Save button for saving visits"
+        # assert self.browser.current_url == "https://infolab.dec.kz/ru/queuenumber/", "Save button is not active"
+
     def should_add_ifa_ihla(self):
-        # открытие окна для добавления анализа
-        # self.browser.execute_script("window.scrollBy(0, 500);")
-        self.make(f"{AnalysisAddLocators.ANALYSIS_ADD}.click()")
-        sleep(2)
-        # добавление анализа
-        self.make(f"{AnalysisAddLocators.CLASSIFIER_GROUP_DROPDOWN}.dropdown('set selected', '6bad8d3e-02ca-4829-a6bd-d0110d0b2739');")
-        sleep(3)
-        self.make(f"{AnalysisAddLocators.CHOOSE_IFA_IHLA_CHBX}.closest('.ui.checkbox').checkbox('check')")
-        self.make(f"{AnalysisAddLocators.ANALYSIS_SAVE}.click()")
-        sleep(1)
-        # получение id зарегистрированного пациента для осуществления дальнейших действий в других журналах
-        global visit_id
-        visit_id = self.browser.find_element(*AnalysisAddLocators.ANALYSIS_DATE_BTN).get_attribute("value")
-        print(visit_id)
-        global referral_id
-        referral_id = self.browser.find_element(*AnalysisAddLocators.REFERRAL_TABLE).get_attribute("data-id")
-        print(referral_id)
-        global patient_id
-        patient_id = self.browser.current_url.split('/')[6]
-        print(patient_id)
-        # button1 = self.browser.find_element(*AnalysisAddLocators.REDUCT_BTN)
-        self.make(f"{AnalysisAddLocators.CLOSE_BTN}.click()")
-        sleep(2)
+        # добавление анализа, тип - бесплатный, вид - ИФА/ИХЛА
+        self.add_analysis('free', '6bad8d3e-02ca-4829-a6bd-d0110d0b2739')
 
     def should_add_hbsag_ifa_analysis(self):
-        # открытие окна для добавления анализа
-        # self.browser.execute_script("window.scrollBy(0, 500);")
-        self.make(f"{AnalysisAddLocators.ANALYSIS_ADD}.click()")
-        sleep(2)
-        # добавление анализа
-        self.make(f"{AnalysisAddLocators.ANALYSIS_GROUP_CHBX}.click()")
-        sleep(5)
-        self.make(f"{AnalysisAddLocators.CLASSIFIER_DD}.dropdown('set selected', 'c3c9e575-2f8a-4f67-8410-f9de80519d60');")
-        sleep(3)
-        self.make(f"{AnalysisAddLocators.ANALYSIS_SAVE}.click()")
-        sleep(1)
-        # получение id зарегистрированного пациента для осуществления дальнейших действий в других журналах
-        global visit_id
-        visit_id = self.browser.find_element(*AnalysisAddLocators.ANALYSIS_DATE_BTN).get_attribute("value")
-        print(visit_id)
-        global referral_id
-        referral_id = self.browser.find_element(*AnalysisAddLocators.REFERRAL_TABLE).get_attribute("data-id")
-        print(referral_id)
-        global patient_id
-        patient_id = self.browser.current_url.split('/')[6]
-        print(patient_id)
-        # button1 = self.browser.find_element(*AnalysisAddLocators.REDUCT_BTN)
-        self.make(f"{AnalysisAddLocators.CLOSE_BTN}.click()")
-        sleep(2)
+        # добавление анализа, тип - договорный, вид - Определение HBsAg антигена вируса гепатита В в сыворотке крови
+        self.add_analysis('contract', 'c3c9e575-2f8a-4f67-8410-f9de80519d60')
 
     def should_add_blood_analysis(self):
-        # открытие окна для добавления анализа
-        # self.browser.execute_script("window.scrollBy(0, 500);")
-        self.make(f"{AnalysisAddLocators.ANALYSIS_ADD}.click()")
-        sleep(2)
-        # добавление анализа
-        self.make(f"{AnalysisAddLocators.ANALYSIS_TYPE}.dropdown('set selected', 'contract');")
-        self.make(f"{AnalysisAddLocators.CLASSIFIER_GROUP_DROPDOWN}.dropdown('set selected', '04b2311b-a744-4d50-a590-21b8b4eac9fe');")
-        sleep(3)
-        self.make(f"{AnalysisAddLocators.CHOOSE_OAK_CHBX}.closest('.ui.checkbox').checkbox('check')")
-        self.make(f"{AnalysisAddLocators.ANALYSIS_SAVE}.click()")
-        sleep(1)
-        # получение id зарегистрированного пациента для осуществления дальнейших действий в других журналах
-        global visit_id
-        visit_id = self.browser.find_element(*AnalysisAddLocators.ANALYSIS_DATE_BTN).get_attribute("value")
-        print(visit_id)
-        global referral_id
-        referral_id = self.browser.find_element(*AnalysisAddLocators.REFERRAL_TABLE).get_attribute("data-id")
-        print(referral_id)
-        global patient_id
-        patient_id = self.browser.current_url.split('/')[6]
-        print(patient_id)
-        # button1 = self.browser.find_element(*AnalysisAddLocators.REDUCT_BTN)
-        self.make(f"{AnalysisAddLocators.CLOSE_BTN}.click()")
-        sleep(2)
+        # добавление анализа, тип - договорный, вид - ОАК
+        self.add_analysis('contract', '04b2311b-a744-4d50-a590-21b8b4eac9fe')
 
     def should_add_urine_analysis(self):
-        # открытие окна для добавления анализа
-        # self.browser.execute_script("window.scrollBy(0, 500);")
-        self.make(f"{AnalysisAddLocators.ANALYSIS_ADD}.click()")
-        sleep(2)
-        # добавление анализа
-        self.make(f"{AnalysisAddLocators.ANALYSIS_TYPE}.dropdown('set selected', 'paid');")
-        self.make(f"{AnalysisAddLocators.CLASSIFIER_GROUP_DROPDOWN}.dropdown('set selected', '7908a604-b5f2-4ea6-b903-add7d7812653');")
-        sleep(3)
-        self.make(f"{AnalysisAddLocators.CHOOSE_OAM_CHBX}.closest('.ui.checkbox').checkbox('check')")
-        self.make(f"{AnalysisAddLocators.ANALYSIS_SAVE}.click()")
-        sleep(1)
-        # получение id зарегистрированного пациента для осуществления дальнейших действий в других журналах
-        global visit_id
-        visit_id = self.browser.find_element(*AnalysisAddLocators.ANALYSIS_DATE_BTN).get_attribute("value")
-        print(visit_id)
-        global referral_id
-        referral_id = self.browser.find_element(*AnalysisAddLocators.REFERRAL_TABLE).get_attribute("data-id")
-        print(referral_id)
-        global patient_id
-        patient_id = self.browser.current_url.split('/')[6]
-        print(patient_id)
-        # button1 = self.browser.find_element(*AnalysisAddLocators.REDUCT_BTN)
-        self.make(f"{AnalysisAddLocators.CLOSE_BTN}.click()")
-        sleep(2)
+        # добавление анализа, тип - платное, вид - ОАМ
+        self.add_analysis('paid', '7908a604-b5f2-4ea6-b903-add7d7812653')
 
     def should_add_biochemistry(self):
-        # открытие окна для добавления анализа
-        # self.browser.execute_script("window.scrollBy(0, 500);")
-        self.make(f"{AnalysisAddLocators.ANALYSIS_ADD}.click()")
-        sleep(2)
-        # добавление анализа
-        self.make(f"{AnalysisAddLocators.ANALYSIS_TYPE}.dropdown('set selected', 'agreed');")
-        self.make(f"{AnalysisAddLocators.CLASSIFIER_GROUP_DROPDOWN}.dropdown('set selected', 'ae231b40-89ed-4e39-ab0a-e05ecd7e3613');")
-        sleep(3)
-        self.make(f"{AnalysisAddLocators.CHOOSE_A_APOLIPOPROTEN_CHBX}.closest('.ui.checkbox').checkbox('check')")
-        self.make(f"{AnalysisAddLocators.ANALYSIS_SAVE}.click()")
-        sleep(1)
-        # получение id зарегистрированного пациента для осуществления дальнейших действий в других журналах
-        global visit_id
-        visit_id = self.browser.find_element(*AnalysisAddLocators.ANALYSIS_DATE_BTN).get_attribute("value")
-        print(visit_id)
-        global referral_id
-        referral_id = self.browser.find_element(*AnalysisAddLocators.REFERRAL_TABLE).get_attribute("data-id")
-        print(referral_id)
-        global patient_id
-        patient_id = self.browser.current_url.split('/')[6]
-        print(patient_id)
-        # button1 = self.browser.find_element(*AnalysisAddLocators.REDUCT_BTN)
-        self.make(f"{AnalysisAddLocators.CLOSE_BTN}.click()")
-        sleep(2)
+        # добавление анализа, тип - по соглашению, вид - биохимия
+        self.add_analysis('agreed', 'ae231b40-89ed-4e39-ab0a-e05ecd7e3613')
 
     def should_get_samples(self):
         self.should_switch_to_procedure_page()
@@ -317,7 +219,7 @@ class WorkPage(BasePage):
     def should_get_biomaterial(self):
         # открывает окно для приглашения пациента и отмечает, что биоматериал забран
         sleep(3)
-        self.make(f"$('a[data-procedure_id={referral_id}]').click();")  # приглашение пацента для забора биоматериала
+        self.make(f"$('a[data-procedure_id={BasePage.analysis_id}]').click();")  # приглашение пацента для забора биоматериала
         sleep(2)
         self.make(f"{ProcedurePageLocators.CHECKBOX_GET_MATERIAL}.click()")  # отмечает, что материал забран
         self.make(f"{ProcedurePageLocators.INVITATION_SAVE_BTN}.click()")  # сохранение данных и закрытие окна
@@ -335,7 +237,7 @@ class WorkPage(BasePage):
         sleep(2)
 
     def send_samples_for_sorting(self):
-        self.make(f"""$('a[data-id="{referral_id}"][title="Отправить биоматериал"]').click();""")
+        self.make(f"""$('a[data-id="{BasePage.analysis_id}"][title="Отправить биоматериал"]').click();""")
         sleep(2)
         self.make(f"$('#id_department_id').dropdown('set selected', '2ce16f7d-765a-4ed0-acdb-59dc79b71c2f')")
         self.make(f"{SortingPageLocators.SEND_BTN}.click()")
@@ -349,9 +251,9 @@ class WorkPage(BasePage):
             #"Incorrect link for Results journal"
 
     def should_submit_ifa_ihla_results(self):
-        self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{patient_id}/all?encounter={visit_id}")
+        self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{BasePage.patient_id}/all?encounter={BasePage.visit_id}")
         sleep(2)
-        self.make(f"""$('div[data-id="{referral_id}"]').click();""")
+        self.make(f"""$('div[data-id="{BasePage.analysis_id}"]').click();""")
         sleep(3)
         self.make(f"{ResultsPageLocators.RESULT_IFA}.dropdown('set selected', 'Отрицательный');")
         self.make(f"{ResultsPageLocators.NOTE_IFA}.val('Good')")
@@ -365,13 +267,16 @@ class WorkPage(BasePage):
         self.browser.execute_script(f"window.location = $('#buttons_div a').attr('href')")
         sleep(2)
 
-    def check_ifa_ihla_results(self):
-        assert self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{visit_id}')[0].status_code") == 5, "Результат не проставлен"
+    def check_results_modal(self):
+        # Проверка проставленности результатов анализа через статус код
+        m = self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{BasePage.visit_id}')[0].status_code")
+        print(m)
+        assert self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{BasePage.visit_id}')[0].status_code") == 5, "Результат не проставлен"
 
     def should_submit_gba_results(self):
-        self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{patient_id}/all?encounter={visit_id}")
+        self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{BasePage.patient_id}/all?encounter={BasePage.visit_id}")
         sleep(2)
-        self.make(f"""$('div[data-id="{referral_id}"]').click();""")
+        self.make(f"""$('div[data-id="{BasePage.analysis_id}"]').click();""")
         sleep(3)
         self.make(f"{ResultsPageLocators.LEUKOCYTES}.val('10')")
         self.make(f"{ResultsPageLocators.ERYTHROCYTES}.val('4')")
@@ -381,14 +286,13 @@ class WorkPage(BasePage):
         self.make(f"{ResultsPageLocators.RESULT_SAVE}.click()")
         sleep(2)
         self.browser.execute_script(f"window.location = $('#buttons_div a').attr('href')")
-        sleep(2)
-        assert self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{visit_id}')[0].status_code") == 5, "Результат не проставлен"
-        # assert self.browser.find_element(By.ID, 'confirm-results')  # проверка, Результат анализа проставлен
+        sleep(5)
+
 
     def should_submit_gua_results(self):
-        self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{patient_id}/all?encounter={visit_id}")
+        self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{BasePage.patient_id}/all?encounter={BasePage.visit_id}")
         sleep(2)
-        self.make(f"""$('div[data-id="{referral_id}"]').click();""")
+        self.make(f"""$('div[data-id="{BasePage.analysis_id}"]').click();""")
         sleep(3)
         self.make(f"{ResultsPageLocators.AMOUNT}.val('100')")
         self.make(f"{ResultsPageLocators.COLOR}.val('YELLOW')")
@@ -399,12 +303,11 @@ class WorkPage(BasePage):
         sleep(2)
         self.browser.execute_script(f"window.location = $('#buttons_div a').attr('href')")
         sleep(2)
-        assert self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{visit_id}')[0].status_code") == 5, "Результат не проставлен"
 
     def should_submit_biochemistry_results(self):
-        self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{patient_id}/all?encounter={visit_id}")
+        self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{BasePage.patient_id}/all?encounter={BasePage.visit_id}")
         sleep(2)
-        self.make(f"""$('div[data-id="{referral_id}"]').click();""")
+        self.make(f"""$('div[data-id="{BasePage.analysis_id}"]').click();""")
         sleep(3)
         self.make(f"{ResultsPageLocators.CONCENTRATION}.val('100')")
         self.make(f"{ResultsPageLocators.NOTES_BIOCHEMISTRY}.val('Good')")
@@ -413,7 +316,20 @@ class WorkPage(BasePage):
         sleep(2)
         self.browser.execute_script(f"window.location = $('#buttons_div a').attr('href')")
         sleep(2)
-        assert self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{visit_id}')[0].status_code") == 5, "Результат не проставлен"
+
+    def should_reject_biochemistry_results(self):
+        self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{BasePage.patient_id}/all?encounter={BasePage.visit_id}")
+        sleep(2)
+        self.make(f"""$('div[data-id="{BasePage.analysis_id}"]').click();""")
+        sleep(3)
+        self.make(f"{ResultsPageLocators.DEFECT_REASON}.dropdown('set selected', 'jiliz')")
+        self.make(f"{ResultsPageLocators.RESULT_SAVE}.click()")
+        sleep(2)
+        self.browser.execute_script(f"window.location = $('#buttons_div a').attr('href')")
+        sleep(2)
+        m = self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{BasePage.visit_id}')[0].status_code")
+        print(m)
+        assert self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{BasePage.visit_id}')[0].status_code") == 1, "Статус брак не подтвержден"
 
     def should_switch_to_dice_page(self):
         # переход в журнал "Плашки"
@@ -422,8 +338,6 @@ class WorkPage(BasePage):
         # assert self.is_element_present(*DicePageLocators.SORTING_LINK), \
         # "Incorrect link for Dice journal"
 
-    numbers3 = ''.join(random.choices(string.digits, k=3))
-    numbers4 = ''.join(random.choices(string.digits, k=4))
 
     def should_add_dice(self):
         # Добавить плашки
@@ -436,20 +350,26 @@ class WorkPage(BasePage):
         self.browser.find_element(*DicePageLocators.DICE_OK_BTN).click()
         sleep(2)
         self.make(f"{DicePageLocators.ADDITIONAL_NUM}.val('{self.numbers3}')")
-        self.make(
-            f"{DicePageLocators.TEST_SYSTEM_TYPE}.dropdown('set selected', '34a78353-7b70-4fd7-9e8b-b992d9104bdb');")
+        self.make(f"{DicePageLocators.TEST_SYSTEM_TYPE}.dropdown('set selected', '34a78353-7b70-4fd7-9e8b-b992d9104bdb');")
         self.make(f"{DicePageLocators.SERIES}.val('{self.numbers4}')")
-        sleep(2)
+        sleep(3)
         self.make(f"{DicePageLocators.PERIOD}.click()")
         self.make(f"{DicePageLocators.DICE_ORG}.dropdown('set selected', '1d880468-58a4-4056-b571-68e713beab71');")
         self.make(f"{DicePageLocators.APPLY_BTN}.click()")
         sleep(2)
-        self.make(f"$('#dice_list_adding_tubes div[data-request_id={referral_id}] .ui.checkbox input').click();")  # выбираем пробирку для перемещения на плашку
+        self.make(f"$('#dice_list_adding_tubes div[data-request_id={BasePage.analysis_id}] .ui.checkbox input').click();")  # выбираем пробирку для перемещения на плашку
         self.make(f"{DicePageLocators.REPLACE}.click()")  # перемещаем выбранную пробирку
-        sleep(5)
+        sleep(2)
+
+    def check_dice_modal(self):
         # проверка, находится ли пробирка на плашке
-        assert self.browser.execute_script(f"return {DicePageLocators.DICE_A1}.val()") == f"{referral_id}", "The tube is not in dice"
-        # assert self.browser.find_element(*DicePageLocators.DICE_A1).get_attribute("value") == f"{referral_id}", "The tube is not in dice"
+        l = self.browser.execute_script(f"return {DicePageLocators.DICE_A1}.val()")
+        print(l)
+        assert self.browser.execute_script(f"return {DicePageLocators.DICE_A1}.val()") == BasePage.analysis_id, "The tube is not in a dice"
+
+    def check_save_dice_button(self):
+        # проверка, находится ли пробирка на плашке
+        assert self.browser.execute_script(f"return {DicePageLocators.DICE_SAVE_BTN}.length"), "No Save button for dice module"
         self.make(f"{DicePageLocators.DICE_SAVE_BTN}.click()")
 
 
