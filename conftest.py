@@ -12,8 +12,8 @@ def browser():
         "https://66b5be3a02ea4c4c844821a44ab86204@debug.ico.kz/12",
         traces_sample_rate=1.0,
     )
-    # browser = webdriver.Remote(desired_capabilities=DesiredCapabilities.CHROME, command_executor="http://127.0.0.1:4444/wd/hub")
-    browser = webdriver.Remote(desired_capabilities=DesiredCapabilities.CHROME, command_executor="http://172.18.0.1:4444/wd/hub")
+    browser = webdriver.Remote(desired_capabilities=DesiredCapabilities.CHROME, command_executor="http://127.0.0.1:4444/wd/hub")
+    # browser = webdriver.Remote(desired_capabilities=DesiredCapabilities.CHROME, command_executor="http://172.18.0.1:4444/wd/hub")
     # browser = webdriver.Chrome(service=Service('C:/Work/tools/chromedriver/chromedriver.exe'))
     # browser.maximize_window()
 

@@ -4,7 +4,9 @@ from selenium.common.exceptions import ElementNotInteractableException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from datetime import datetime
-from pages.locators import AnalysisAddLocators
+
+from .locators import AnalysisAddLocators
+
 
 class BasePage(object):
     # Мы создаем конструктор, в котором передаются тело браузера и ссылка для дальнейшего использования
