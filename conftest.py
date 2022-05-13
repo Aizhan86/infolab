@@ -28,7 +28,7 @@ def browser():
     # browser = webdriver.Chrome(service=Service('C:/Work/tools/chromedriver/chromedriver.exe'))
     # browser.maximize_window()
 
-    # pytest --dist=loadscope --tx 1*popen//python=python3.10 -n 1 --reruns 1 --only-rerun JavascriptException --only-rerun ElementClickInterceptedException testing_test.py
+    # pytest --dist=loadscope --tx 8*popen//python=python3.10 -n 8 --reruns 1 --only-rerun JavascriptException --only-rerun ElementClickInterceptedException testing_test.py
 
     yield browser
     print("\nquit browser..")
