@@ -327,9 +327,16 @@ class WorkPage(BasePage):
         sleep(2)
         self.browser.execute_script(f"window.location = $('#buttons_div a').attr('href')")
         sleep(2)
+        enc = 0
         m = self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{BasePage.visit_id}')[0].status_code")
+        while m != 1:
+            m = self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{BasePage.visit_id}')[0].status_code")
+            enc += 1
+            sleep(1)
+            if enc == 10:
+                break
         print(m)
-        assert self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{BasePage.visit_id}')[0].status_code") == 1, "Статус брак не подтвержден"
+        assert m == 1, "Статус брак не подтвержден"
 
     def should_switch_to_dice_page(self):
         # переход в журнал "Плашки"
