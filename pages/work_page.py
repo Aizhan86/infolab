@@ -271,7 +271,7 @@ class WorkPage(BasePage):
         # Проверка проставленности результатов анализа через статус код
         m = self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{BasePage.visit_id}')[0].status_code")
         print(m)
-        assert self.browser.execute_script(f"return $('#gridContainer').dxDataGrid('instance').getDataSource().items().filter((e) => e.encounter_id == '{BasePage.visit_id}')[0].status_code") == 5, "Результат не проставлен"
+        assert m == 5, "Результат не проставлен"
 
     def should_submit_gba_results(self):
         self.browser.get(f"https://infolab.dec.kz/ru/analysis/results/{BasePage.patient_id}/all?encounter={BasePage.visit_id}")
@@ -352,7 +352,7 @@ class WorkPage(BasePage):
         sleep(2)
         self.make(f"{DicePageLocators.ANALYSIS_TYPE}.dropdown('set selected', 'B06.125.005');")
         # self.make(f"{DicePageLocators.ANALYSIS_TYPE}.dropdown('set selected', 'B06.855.005');")
-        self.make(f"{DicePageLocators.TUBE_TYPE}.dropdown('set selected', 'free');")
+        self.make(f"{DicePageLocators.TUBE_TYPE}.dropdown('set selected', 'contract');")
         self.make(f"{DicePageLocators.PATIENTS_WITH_IB}.click()")
         self.browser.find_element(*DicePageLocators.DICE_OK_BTN).click()
         sleep(2)
@@ -372,7 +372,7 @@ class WorkPage(BasePage):
         # проверка, находится ли пробирка на плашке
         l = self.browser.execute_script(f"return {DicePageLocators.DICE_A1}.val()")
         print(l)
-        assert self.browser.execute_script(f"return {DicePageLocators.DICE_A1}.val()") == BasePage.analysis_id, "The tube is not in a dice"
+        assert l == BasePage.analysis_id, "The tube is not in a dice"
 
     def check_save_dice_button(self):
         # проверка, находится ли пробирка на плашке

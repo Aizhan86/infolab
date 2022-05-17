@@ -1,5 +1,5 @@
-from .pages.login_page import LoginPage
-from .pages.work_page import WorkPage
+from pages.login_page import LoginPage
+from pages.work_page import WorkPage
 
 def login(browser):
     LOGIN_URL = "https://infolab.dec.kz/ru/account/login?next=/ru/patient/"
@@ -159,18 +159,18 @@ class TestIfaIhlaAnalysisResultsModule():
         work_page.should_submit_ifa_ihla_results()
         work_page.check_results_modal()
 
-# class TestHbsagIfaAnalysisDiceModule():
-#     def test_ifa_hbsag_result_module(self, browser):
-#         login(browser)
-#         work_page = WorkPage(browser, browser.current_url)
-#         work_page.should_fill_register_form()
-#         work_page.should_add_hbsag_ifa_analysis()
-#         work_page.should_get_samples()
-#         work_page.should_send_samples_for_sorting()
-#         work_page.should_switch_to_dice_page()
-#         work_page.should_add_dice()
-#         work_page.check_dice_modal()
-#         work_page.check_save_dice_button()
+class TestHbsagIfaAnalysisDiceModule():
+    def test_ifa_hbsag_result_module(self, browser):
+        login(browser)
+        work_page = WorkPage(browser, browser.current_url)
+        work_page.should_fill_register_form()
+        work_page.should_add_hbsag_ifa_analysis()
+        work_page.should_get_samples()
+        work_page.should_send_samples_for_sorting()
+        work_page.should_switch_to_dice_page()
+        work_page.should_add_dice()
+        work_page.check_dice_modal()
+        work_page.check_save_dice_button()
 
 class TestBloodAnalysisResultsModule():
     def test_gba_results(self, browser):
