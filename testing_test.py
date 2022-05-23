@@ -1,5 +1,5 @@
-from pages.login_page import LoginPage
-from pages.work_page import WorkPage
+from .pages.login_page import LoginPage
+from .pages.work_page import WorkPage
 
 def login(browser):
     LOGIN_URL = "https://infolab.dec.kz/ru/account/login?next=/ru/patient/"
